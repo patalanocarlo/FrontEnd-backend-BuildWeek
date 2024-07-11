@@ -7,6 +7,8 @@ import Login from "./components/Login";
 import MyNavbar from "./components/MyNavbar";
 import NotFound from "./components/NotFound";
 import MyFooter from "./components/MyFooter";
+import AdminDashboard from "./components/AdminDashboard";
+import FormCompanyRegistration from "./components/FormCompanyRegistration";
 
 function App() {
   return (
@@ -17,6 +19,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route
+            path="/companyregistration"
+            element={<FormCompanyRegistration />}
+          />
           <Route path="*" element={<NotFound />} />
           {/* <Route path="/dettagli/:" element={< />} /> */}
         </Routes>

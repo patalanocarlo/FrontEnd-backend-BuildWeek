@@ -1,9 +1,14 @@
 import { useState } from "react";
+import "../style/Registration.css";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
+import BackgroundImage from "../assets/fabio-comparelli-uq2E2V4LhCY-unsplash.jpg";
+import Logo from "../assets/EpiEnergy-removebg-preview.png";
+import { Link, useNavigate } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
 let Registration = () => {
   const [validated, setValidated] = useState(false);
@@ -12,8 +17,9 @@ let Registration = () => {
   const [password, setPassword] = useState("");
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
-  const [avatar, setAvatar] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [errorMessages, setErrorMessages] = useState([]);
+  const navigate = useNavigate();
 
   const handleSubmit = async event => {
     const form = event.currentTarget;
@@ -36,19 +42,20 @@ let Registration = () => {
               password,
               nome,
               cognome,
-              avatar,
             }),
           }
         );
         if (response.ok) {
           const data = await response.json();
           setResponseMessage("Registration successful");
+          setErrorMessages([]);
+          navigate("/");
         } else {
           const errorData = await response.json();
-          setResponseMessage(`Errore: ${errorData.message}`);
+          setErrorMessages(errorData.errors || [`${errorData.message}`]);
         }
       } catch (error) {
-        setResponseMessage(`Errore: ${error.message}`);
+        setErrorMessages([`${error.message}`]);
       }
     }
 
@@ -57,9 +64,24 @@ let Registration = () => {
 
   return (
     <>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Row className="mb-3">
-          <Form.Group as={Col} md="4" controlId="validationCustom01">
+      <div
+        className="registration__wrapper"
+        style={{ backgroundImage: `url(${BackgroundImage})` }}
+      >
+        <div className="registration__backdrop"></div>
+        <Form
+          className="shadow p-4 bg-white rounded"
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}
+        >
+          <img
+            className="img-thumbnail mx-auto d-block mb-2"
+            src={Logo}
+            alt="logo"
+          />
+          <div className="h4 mb-2 text-center">Registrazione</div>
+          <Form.Group className="mb-2" controlId="validationCustom01">
             <Form.Label>First name</Form.Label>
             <Form.Control
               required
@@ -68,9 +90,8 @@ let Registration = () => {
               value={nome}
               onChange={e => setNome(e.target.value)}
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustom02">
+          <Form.Group className="mb-2" controlId="validationCustom02">
             <Form.Label>Last name</Form.Label>
             <Form.Control
               required
@@ -79,9 +100,8 @@ let Registration = () => {
               value={cognome}
               onChange={e => setCognome(e.target.value)}
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+          <Form.Group className="mb-2" controlId="validationCustomUsername">
             <Form.Label>Username</Form.Label>
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
@@ -98,9 +118,8 @@ let Registration = () => {
               </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
-        </Row>
-        <Row className="mb-3">
-          <Form.Group as={Col} md="6" controlId="validationCustom03">
+
+          <Form.Group className="mb-2" controlId="validationCustom03">
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
@@ -113,7 +132,7 @@ let Registration = () => {
               Please provide a valid email.
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md="6" controlId="validationCustom04">
+          <Form.Group className="mb-2" controlId="validationCustom04">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -126,38 +145,41 @@ let Registration = () => {
               Please provide a valid password.
             </Form.Control.Feedback>
           </Form.Group>
-        </Row>
-        <Row className="mb-3">
-          <Form.Group as={Col} md="12" controlId="validationCustom05">
-            <Form.Label>Avatar URL</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="http://logoprova.it/"
-              required
-              value={avatar}
-              onChange={e => setAvatar(e.target.value)}
-            />
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid URL.
-            </Form.Control.Feedback>
-          </Form.Group>
-        </Row>
-        <Form.Group className="mb-3">
-          <Form.Check
-            required
-            label="Agree to terms and conditions"
-            feedback="You must agree before submitting."
-            feedbackType="invalid"
-          />
-        </Form.Group>
-        <Button type="submit">Submit form</Button>
-      </Form>
 
-      {responseMessage && (
-        <div className="mt-3">
-          <p>{responseMessage}</p>
-        </div>
-      )}
+          <Form.Group className="mb-2">
+            <Form.Check
+              required
+              label="Agree to terms and conditions"
+              feedback="You must agree before submitting."
+              feedbackType="invalid"
+            />
+          </Form.Group>
+          <Button className="w-100" variant="primary" type="submit">
+            Registrati
+          </Button>
+
+          <div className="d-grid text-center mt-2">
+            Sei già registrato?
+            <Link to="/login" className="text-muted px-0">
+              Accedi alla piattaforma
+            </Link>
+          </div>
+          {errorMessages.length > 0 && (
+            <Alert variant="danger" className="mt-3">
+              <ul>
+                {errorMessages.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </Alert>
+          )}
+          {responseMessage && (
+            <div className="mt-3">
+              <p>{responseMessage}</p>
+            </div>
+          )}
+        </Form>
+      </div>
     </>
   );
 };

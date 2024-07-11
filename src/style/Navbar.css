@@ -1,45 +1,88 @@
-/* ---------- SIGN IN ---------- */
-.sign-in__wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+#navbar a {
+  text-decoration: none;
+  color: black;
+  transition: 0.2s;
+}
+
+#navbar a:hover {
+  text-decoration: none;
+  color: rgb(73, 71, 71);
+  transform: scale(1.02);
+}
+
+#navbar div > a {
+  margin-right: 2vw;
+  font-weight: bold;
+}
+
+#navbar .Vid {
+  cursor: pointer;
+  transition: 0.6s;
+  border-radius: 20px;
+}
+
+#navbar .Vid:hover {
+  transform: scale(0.9);
+}
+
+#navbar .underLine {
+  transition: 10s;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+#navbar .underLine1 {
+  color: rgb(112, 108, 108);
+  transition: 10s;
+  display: inline-block;
   position: relative;
 }
 
-.sign-in__backdrop {
+#navbar .underLine:after,
+#navbar .underLine1:after {
+  content: "";
   position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #646464;
+  transform-origin: bottom right;
+  transition: transform 0.75s ease-in-out;
 }
 
-.sign-in__wrapper form {
-  width: 24rem;
-  max-width: 90%;
-  z-index: 1;
-  animation: showSignInForm 1s;
+#navbar .underLine:hover:after {
+  transform: scaleX(1);
 }
 
-.sign-in__wrapper form img {
-  width: 4rem;
+#navbar .underLine1:hover:after {
+  transform: scaleX(0.9);
+  transform-origin: bottom left;
 }
 
-@keyframes showSignInForm {
-  0%,
-  30% {
-    transform: translate(0, -150%);
-  }
-  70%,
-  90% {
-    transform: translate(0, 1rem);
-  }
-  80%,
-  100% {
-    transform: translate(0, 0);
-  }
+#navbar .underLine2 {
+  color: rgb(112, 108, 108);
+  transition: 10s;
+  display: inline-block;
+  position: relative;
+}
+
+#navbar .underLine2:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #d83838;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-in-out;
+}
+
+#navbar .underLine2:hover:after {
+  transform: scaleX(0.9);
+  transform-origin: bottom left;
 }

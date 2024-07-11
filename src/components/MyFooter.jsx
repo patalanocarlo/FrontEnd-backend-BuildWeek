@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, NavLink } from "react-bootstrap";
+import { Container, Row, Col, NavLink } from "react-bootstrap";
 
 let MyFooter = () => {
   return (
@@ -66,7 +66,7 @@ let MyFooter = () => {
       </Container>
 
       <span className="d-block text-center mt-2">
-        © EpicService, Inc. All Rights Reserved.
+        © EpicEnergy, Inc. All Rights Reserved.
       </span>
     </footer>
   );
