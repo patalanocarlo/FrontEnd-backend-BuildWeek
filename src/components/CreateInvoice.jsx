@@ -6,7 +6,7 @@ const CreateInvoice = () => {
   const [importo, setImporto] = useState("");
   const [dataFattura, setDataFattura] = useState("");
 
-  const handleCreateInvoice = async e => {
+  const handleCreateInvoice = async (e) => {
     e.preventDefault();
 
     const authToken = localStorage.getItem("authToken");
@@ -22,7 +22,7 @@ const CreateInvoice = () => {
     };
 
     try {
-      const response = await fetch("/api/invoices/create", {
+      const response = await fetch("http://localhost:3001/fatture/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const CreateInvoice = () => {
             autoComplete="idFattura"
             autoFocus
             value={idFattura}
-            onChange={e => setIdFattura(e.target.value)}
+            onChange={(e) => setIdFattura(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -80,7 +80,7 @@ const CreateInvoice = () => {
             name="importo"
             autoComplete="importo"
             value={importo}
-            onChange={e => setImporto(e.target.value)}
+            onChange={(e) => setImporto(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -95,15 +95,9 @@ const CreateInvoice = () => {
               shrink: true,
             }}
             value={dataFattura}
-            onChange={e => setDataFattura(e.target.value)}
+            onChange={(e) => setDataFattura(e.target.value)}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 3, mb: 2 }}>
             Crea Fattura
           </Button>
         </Box>
