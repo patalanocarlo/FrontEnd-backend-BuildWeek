@@ -27,24 +27,35 @@ const Home = () => {
   const [userName, setUserName] = React.useState("");
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
-    if (authToken) {
-      fetchUserInfo(authToken);
-      setIsLoggedIn(true);
 
-      const fakeFatture = [
-        { id: 1, numero: "FAT001", importo: 100 },
-        { id: 2, numero: "FAT002", importo: 200 },
-        { id: 3, numero: "FAT003", importo: 150 },
-      ];
-      setFatture(fakeFatture);
-      setFilteredFatture(fakeFatture);
-    } else {
-      setIsLoggedIn(false);
+  const fetchFatture = async (token, page = 0) => {
+    try {
+        const response = await fetch(`http://localhost:3001/fatture?page=${page}&size=100`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            throw new Error("Errore nel caricamento delle Fatture");
+        }
+        const data = await response.json();
+        setFatture(data.content); 
+        setFilteredFatture(data.content); 
+    } catch (error) {
+        console.error("Errore nel recupero delle fatture:", error);
     }
-  }, []);
+};
 
+React.useEffect(() => {
+  const authToken = localStorage.getItem("authToken");
+  if (authToken) {
+      fetchUserInfo(authToken);
+      fetchFatture(authToken);
+      setIsLoggedIn(true);
+  } else {
+      setIsLoggedIn(false);
+  }
+}, []);
   const fetchUserInfo = async token => {
     try {
       const response = await fetch("http://localhost:3001/utenti/me", {
@@ -214,23 +225,23 @@ const Home = () => {
             </Row>
           </div>
           <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Numero Fattura</th>
-                <th>Importo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredFatture.map(fattura => (
-                <tr key={fattura.id}>
-                  <td>{fattura.id}</td>
-                  <td>{fattura.numero}</td>
-                  <td>{fattura.importo}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Numero Fattura</th>
+            <th>Importo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {filteredFatture.map(fattura => (
+            <tr key={fattura.id}>
+                <td>{fattura.id}</td>
+                <td>{fattura.numeroFattura }</td> 
+                <td>{fattura.importo}</td>
+            </tr>
+        ))}
+    </tbody>
+</Table>
         </Container>
       ) : (
         <div
