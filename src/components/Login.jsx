@@ -30,14 +30,14 @@ const Login = () => {
         const { token } = await response.json();
         localStorage.setItem("authToken", token);
 
-        const decodedToken = jwtDecode(token);
+        const decodedToken = jwtDecode(token).sub;
         console.log(decodedToken);
         const userRole = decodedToken;
         console.log(userRole);
 
         if (userRole === "1") {
           navigate("/cliente/dashboard");
-        } else if (userRole === "ADMIN") {
+        } else if (userRole === "2") {
           navigate("/admin/dashboard");
         } else {
           navigate("/");

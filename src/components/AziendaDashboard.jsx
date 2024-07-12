@@ -21,9 +21,6 @@ const AziendaDashboard = () => {
         <Button as={Link} to="/invoice">
           Crea una nuova fattura
         </Button>
-        <Button as={Link} to="/invoice">
-          Crea una nuova fattura
-        </Button>
         <Grid container spacing={3}>
           {/* Chart */}
           <Grid item xs={12} md={8} lg={9}>
