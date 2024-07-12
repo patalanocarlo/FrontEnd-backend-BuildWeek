@@ -51,35 +51,22 @@ const MyNavbar = () => {
                 ABOUT
               </Button>
             </a>
-            <a className="underLine2 hide_on_responsive" onClick={handleLogout}>
-              <Button variant="text" color="default">
-                LOGOUT
-              </Button>
-            </a>
-            <a className="underLine2 hide_on_responsive">
-              <Button variant="outlined" color="secondary">
-                CONTATTI
-              </Button>
-            </a>
-
             {authToken ? (
-              <>
-                <NavDropdown
-                  id="nav-dropdown-dark-example"
-                  title="PROFILO"
-                  menuVariant="dark"
-                  className="underLine2 mt-2 "
-                >
-                  <Dropdown.Item as={Link} to="/admin/dashboard">
-                    DASHBOARD
-                  </Dropdown.Item>
-                  <Dropdown.Item as={Link} onClick={handleLogout}>
-                    LOGOUT
-                  </Dropdown.Item>
-                </NavDropdown>
-              </>
+              <NavDropdown
+                id="nav-dropdown-dark-example"
+                title="PROFILO"
+                menuVariant="dark"
+                className="underLine2 mt-2"
+              >
+                <NavDropdown.Item as={Link} to="/admin/dashboard">
+                  DASHBOARD
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>
+                  LOGOUT
+                </NavDropdown.Item>
+              </NavDropdown>
             ) : (
-              <Link to="/login" className="underLine2 ">
+              <Link to="/login" className="underLine2">
                 <Button variant="text" color="default">
                   LOGIN
                 </Button>

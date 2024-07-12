@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
@@ -14,11 +14,44 @@ import { Button } from "react-bootstrap";
 const defaultTheme = createTheme();
 
 const AziendaDashboard = () => {
+  const [cliente, setCliente] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("authToken") || "");
+
+  useEffect(() => {
+    const fetchCliente = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/clienti/me", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Errore durante il recupero dei dati del cliente");
+        }
+
+        const data = await response.json();
+        setCliente(data);
+      } catch (error) {
+        console.error("Errore nel caricamento dei dati del cliente", error);
+      }
+    };
+
+    fetchCliente();
+  }, []);
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Button as={Link} to="/invoice">
+        <Typography variant="h3" className="text-center mb-3">
+          Benvenuto nella tua Dashboard {cliente ? cliente.nome : ""}
+        </Typography>
+        <Button
+          as={Link}
+          to="/invoice"
+          className="col-12 btn btn-outline-dark bg-white my-4"
+        >
           Crea una nuova fattura
         </Button>
         <Grid container spacing={3}>
@@ -32,7 +65,6 @@ const AziendaDashboard = () => {
                 height: 240,
               }}
             >
-              {" "}
               <Chart />
             </Paper>
           </Grid>
@@ -65,7 +97,7 @@ const AziendaDashboard = () => {
         >
           {"Copyright "}
           <Typography component="span" color="inherit">
-            Your Website
+            EpicEnergy
           </Typography>{" "}
           {new Date().getFullYear()}
           {"."}

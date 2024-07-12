@@ -24,7 +24,7 @@ export default function Chart() {
 
   return (
     <React.Fragment>
-      <h1>Today</h1>
+      <h1>Fatturato </h1>
       <div style={{ width: "100%", flexGrow: 1, overflow: "hidden" }}>
         <LineChart
           dataset={data}
