@@ -39,7 +39,7 @@ const FormCompanyRegistration = () => {
     const provinceId = event.target.value;
     setSelectedProvince(provinceId);
 
-    // Fetch comuni based on selected province
+    // Fetch comuni basati su selezione utente
     try {
       const response = await fetch(
         `http://localhost:3001/provincia/${provinceId}`,
@@ -88,7 +88,6 @@ const FormCompanyRegistration = () => {
 
       const data = await response.json();
       console.log("Registration successful:", data);
-      // Eseguire azioni supplementari dopo la registrazione
     } catch (error) {
       console.error("Errore durante la registrazione del cliente:", error);
     }

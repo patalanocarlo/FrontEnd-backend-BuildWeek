@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import {
   Container,
   Row,
@@ -19,30 +19,51 @@ import logo from "../assets/EpiEnergy-removebg-preview.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const [fatture, setFatture] = useState([]);
-  const [filteredFatture, setFilteredFatture] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterOption, setFilterOption] = useState("all");
+  const [fatture, setFatture] = React.useState([]);
+  const [filteredFatture, setFilteredFatture] = React.useState([]);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [filterOption, setFilterOption] = React.useState("all");
+  const [userName, setUserName] = React.useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Simuliamo un token di autenticazione salvato in localStorage
+  React.useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (authToken) {
+      fetchUserInfo(authToken);
       setIsLoggedIn(true);
-      // Simuliamo il recupero di dati fittizi di fatture
+
       const fakeFatture = [
         { id: 1, numero: "FAT001", importo: 100 },
         { id: 2, numero: "FAT002", importo: 200 },
         { id: 3, numero: "FAT003", importo: 150 },
       ];
       setFatture(fakeFatture);
-      setFilteredFatture(fakeFatture); // Inizialmente mostriamo tutte le fatture
+      setFilteredFatture(fakeFatture);
     } else {
       setIsLoggedIn(false);
     }
   }, []);
+
+  const fetchUserInfo = async token => {
+    try {
+      const response = await fetch("http://localhost:3001/utenti/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch user info");
+      }
+      const data = await response.json();
+      setUserName(data.nome);
+    } catch (error) {
+      console.error(
+        "Errore nel recupero delle informazioni dell'utente:",
+        error
+      );
+    }
+  };
 
   // Funzione per gestire il cambio nel campo di ricerca
   const handleSearchChange = event => {
@@ -92,6 +113,7 @@ const Home = () => {
     <>
       {isLoggedIn ? (
         <Container style={{ minHeight: "100vh" }}>
+          <h1>Benvenuto, {userName}!</h1>
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4 ">
             <div className="d-block mb-4 mb-md-0">
               <Breadcrumb
@@ -103,11 +125,12 @@ const Home = () => {
                 <Breadcrumb.Item>
                   <FaHome />
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>Volt</Breadcrumb.Item>
-                <Breadcrumb.Item active>Transactions</Breadcrumb.Item>
+                <Breadcrumb.Item active>
+                  Le ultime fatture emesse
+                </Breadcrumb.Item>
               </Breadcrumb>
-              <h4>Transactions</h4>
-              <p className="mb-0">Your web analytics dashboard template.</p>
+              <h4>Fatture</h4>
+              <p className="mb-0">Visualizza le ultime fatture emesse</p>
             </div>
             <div className="btn-toolbar mb-2 mb-md-0">
               <ButtonGroup>

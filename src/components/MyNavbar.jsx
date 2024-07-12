@@ -70,7 +70,7 @@ const MyNavbar = () => {
                   menuVariant="dark"
                   className="underLine2 mt-2 "
                 >
-                  <Dropdown.Item as={Link} to="/">
+                  <Dropdown.Item as={Link} to="/admin/dashboard">
                     DASHBOARD
                   </Dropdown.Item>
                   <Dropdown.Item as={Link} onClick={handleLogout}>
