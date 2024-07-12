@@ -9,6 +9,8 @@ import NotFound from "./components/NotFound";
 import MyFooter from "./components/MyFooter";
 import AdminDashboard from "./components/AdminDashboard";
 import FormCompanyRegistration from "./components/FormCompanyRegistration";
+import CreateInvoice from "./components/CreateInvoice";
+import AziendaDashboard from "./components/AziendaDashboard";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/cliente/dashboard" element={<AziendaDashboard />} />
+          <Route path="/invoice" element={<CreateInvoice />} />
           <Route
             path="/companyregistration"
             element={<FormCompanyRegistration />}
